@@ -21,7 +21,7 @@ class Config {
   static int quantityPrecision = 2, currencyPrecision = 2, callLogSyncDuration = 30;
 
   //List of locale language code
-  List locale = ['en','id'];
+  List locale = ['en',   List locale = ['en','id'];
   String defaultLanguage = 'id';
 
   //List of locales included
