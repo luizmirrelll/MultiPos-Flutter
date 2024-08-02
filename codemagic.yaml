@@ -7,8 +7,6 @@ workflows:
       flutter: stable
       android_signing:
         - keystore_reference
-      groups:
-        - google_play # Pastikan grup ini mencakup GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
       vars:
         PACKAGE_NAME: "com.maumere.mobilepos" # Ubah sesuai dengan nama paket Anda
     scripts:
