@@ -1079,124 +1079,131 @@ class _ProductsState extends State<Products> {
     }
   }
 
-  Widget locations() {
-    return DropdownButtonHideUnderline(
-      child: DropdownButton(
-          dropdownColor: Colors.white,
-          icon: Icon(
-            Icons.arrow_drop_down,
+Widget locations() {
+  return DropdownButtonHideUnderline(
+    child: DropdownButton(
+      dropdownColor: Colors.white,
+      icon: Icon(
+        Icons.arrow_drop_down,
+      ),
+      value: selectedLocationId,
+      items: locationListMap.map<DropdownMenuItem<int>>((Map value) {
+        return DropdownMenuItem<int>(
+          value: value['id'],
+          child: SizedBox(
+            width: MySize.screenWidth! * 0.4,
+            child: Text(
+              '${value['name']}',
+              softWrap: true,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              style: TextStyle(fontSize: 15),
+            ),
           ),
-          value: selectedLocationId,
-          items: locationListMap.map<DropdownMenuItem<int>>((Map value) {
-            return DropdownMenuItem<int>(
-                value: value['id'],
-                child: SizedBox(
-                  width: MySize.screenWidth! * 0.4,
-                  child: Text('${value['name']}',
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: TextStyle(fontSize: 15)),
-                ));
-          }).toList(),
-          onTap: () {
-            if (locationListMap.length <= 2) {
-              canChangeLocation = false;
-            }
-          },
-          onChanged: (int? newValue) async {
-            // show a confirmation if there location is changed.
-            if (canChangeLocation) {
-              if (selectedLocationId == newValue) {
-                changeLocation = false;
-              } else if (selectedLocationId != 0) {
-                await _showCartResetDialogForLocation();
-                await priceGroupList();
-              } else {
-                changeLocation = true;
-                await priceGroupList();
-              }
-              setState(() {
-                if (changeLocation) {
-                  //reset cart items
-                  Sell().resetCart();
-                  selectedLocationId = newValue!;
-                  //reset all filters & search
-                  brandId = 0;
-                  categoryId = 0;
-                  searchController.clear();
-                  inStock = true;
-                  cartCount = 0;
-
-                  products = [];
-                  offset = 0;
-                  productList();
-                }
-              });
-            } else {
-              Fluttertoast.showToast(
-                  msg: AppLocalizations.of(context)
-                      .translate('cannot_change_location'));
-            }
-          }),
-    );
-  }
-
-  Future<void> _showCartResetDialogForLocation() async {
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title:
-              Text(AppLocalizations.of(context).translate('change_location')),
-          content: Text(AppLocalizations.of(context)
-              .translate('all_items_in_cart_will_be_remove')),
-          actions: [
-            TextButton(
-                onPressed: () {
-                  changeLocation = false;
-                  Navigator.of(context).pop();
-                },
-                child: Text(AppLocalizations.of(context).translate('no'))),
-            TextButton(
-                onPressed: () {
-                  changeLocation = true;
-                  Navigator.of(context).pop();
-                },
-                child: Text(AppLocalizations.of(context).translate('yes')))
-          ],
         );
+      }).toList(),
+      onTap: () {
+        if (locationListMap.length <= 2) {
+          canChangeLocation = false;
+        }
       },
-    );
-  }
+      onChanged: (int? newValue) async {
+        if (canChangeLocation) {
+          if (selectedLocationId == newValue) {
+            changeLocation = false;
+          } else if (selectedLocationId != 0) {
+            await _showCartResetDialogForLocation();
+            await priceGroupList();
+          } else {
+            changeLocation = true;
+            await priceGroupList();
+          }
+          setState(() {
+            if (changeLocation) {
+              //reset cart items
+              Sell().resetCart();
+              selectedLocationId = newValue!;
+              //reset all filters & search
+              brandId = 0;
+              categoryId = 0;
+              searchController.clear();
+              inStock = true;
+              cartCount = 0;
 
-  Future<void> _showCartResetDialogForPriceGroup() async {
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context)
-              .translate('change_selling_price_group')),
-          content: Text(AppLocalizations.of(context)
-              .translate('all_items_in_cart_will_be_remove')),
-          actions: [
-            TextButton(
-                onPressed: () {
-                  changePriceGroup = false;
-                  Navigator.of(context).pop();
-                },
-                child: Text(AppLocalizations.of(context).translate('no'))),
-            TextButton(
-                onPressed: () {
-                  changePriceGroup = true;
-                  Navigator.of(context).pop();
-                },
-                child: Text(AppLocalizations.of(context).translate('yes')))
-          ],
-        );
+              products = [];
+              offset = 0;
+              productList();
+            }
+          });
+        } else {
+          Fluttertoast.showToast(
+            msg: AppLocalizations.of(context)
+                .translate('cannot_change_location'),
+          );
+        }
       },
-    );
-  }
+    ),
+  );
+}
+
+Future<void> _showCartResetDialogForLocation() async {
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(AppLocalizations.of(context).translate('change_location')),
+        content: Text(AppLocalizations.of(context)
+            .translate('all_items_in_cart_will_be_remove')),
+        actions: [
+          TextButton(
+            onPressed: () {
+              changeLocation = false;
+              Navigator.of(context).pop();
+            },
+            child: Text(AppLocalizations.of(context).translate('no')),
+          ),
+          TextButton(
+            onPressed: () {
+              changeLocation = true;
+              Navigator.of(context).pop();
+            },
+            child: Text(AppLocalizations.of(context).translate('yes')),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<void> _showCartResetDialogForPriceGroup() async {
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(AppLocalizations.of(context)
+            .translate('change_selling_price_group')),
+        content: Text(AppLocalizations.of(context)
+            .translate('all_items_in_cart_will_be_remove')),
+        actions: [
+          TextButton(
+            onPressed: () {
+              changePriceGroup = false;
+              Navigator.of(context).pop();
+            },
+            child: Text(AppLocalizations.of(context).translate('no')),
+          ),
+          TextButton(
+            onPressed: () {
+              changePriceGroup = true;
+              Navigator.of(context).pop();
+            },
+            child: Text(AppLocalizations.of(context).translate('yes')),
+          ),
+        ],
+      );
+    },
+  );
+}
 }
 
 class _ProductGridWidget extends StatefulWidget {
