@@ -1,46 +1,49 @@
 workflows:
-    react-native-android:
-        name: React Native Android
-        max_build_duration: 120
-        instance_type: mac_mini_m2
-        environment:
-          android_signing:
-            - keystore_reference
-          groups:
-            - google_play # <-- (Includes GCLOUD_SERVICE_ACCOUNT_CREDENTIALS <-- Put your google-services.json)
-          vars:
-            PACKAGE_NAME: "io.codemagic.sample.reactnative" # <-- Put your package name here e.g. com.domain.myapp
-          node: v19.7.0
-        scripts:
-            - name: Install npm dependencies
-              script: |
-                                npm install
-            - name: Set Android SDK location
-              script: |
-                                echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"            
-            - name: Build Android release
-              script: |
-                LATEST_GOOGLE_PLAY_BUILD_NUMBER=$(google-play get-latest-build-number --package-name "$PACKAGE_NAME")
-                if [ -z LATEST_BUILD_NUMBER ]; then
-                  # fallback in case no build number was found from google play. Alternatively, you can `exit 1` to fail the build
-                  UPDATED_BUILD_NUMBER=$BUILD_NUMBER
-                else
-                  UPDATED_BUILD_NUMBER=$(($LATEST_GOOGLE_PLAY_BUILD_NUMBER + 1))
-                fi
-                cd android
-                ./gradlew bundleRelease \
-                  -PversionCode=$UPDATED_BUILD_NUMBER \
-                  -PversionName=1.0.$UPDATED_BUILD_NUMBER                
-        artifacts:
-            - android/app/build/outputs/**/*.aab
-        publishing:
-          email:
-            recipients:
-              - user_1@example.com
-              - user_2@example.com
-            notify:
-              success: true     # To not receive a notification when a build succeeds
-              failure: false    # To not receive a notification when a build fails
-          google_play:
-            credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
-            track: alpha   # Any default or custom track that is not in ‘draft’ status
+  flutter-android:
+    name: Flutter Android
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+    environment:
+      android_signing:
+        - keystore_reference
+      groups:
+        - google_play # <-- (Includes GCLOUD_SERVICE_ACCOUNT_CREDENTIALS <-- Put your google-services.json)
+      vars:
+        PACKAGE_NAME: "io.codemagic.sample.flutter" # <-- Put your package name here e.g. com.domain.myapp
+        FLUTTER_VERSION: "stable"
+    scripts:
+      - name: Set up Flutter
+        script: |
+          wget https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.7.0-stable.zip
+          unzip flutter_macos_3.7.0-stable.zip
+          export PATH="$PATH:`pwd`/flutter/bin"
+          flutter doctor
+      - name: Install dependencies
+        script: |
+          flutter pub get
+      - name: Set Android SDK location
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Build Android release
+        script: |
+          LATEST_GOOGLE_PLAY_BUILD_NUMBER=$(google-play get-latest-build-number --package-name "$PACKAGE_NAME")
+          if [ -z "$LATEST_GOOGLE_PLAY_BUILD_NUMBER" ]; then
+            # fallback in case no build number was found from google play. Alternatively, you can `exit 1` to fail the build
+            UPDATED_BUILD_NUMBER=$BUILD_NUMBER
+          else
+            UPDATED_BUILD_NUMBER=$(($LATEST_GOOGLE_PLAY_BUILD_NUMBER + 1))
+          fi
+          flutter build appbundle --build-number=$UPDATED_BUILD_NUMBER --build-name=1.0.$UPDATED_BUILD_NUMBER
+    artifacts:
+      - build/app/outputs/**/*.aab
+    publishing:
+      email:
+        recipients:
+          - user_1@example.com
+          - user_2@example.com
+        notify:
+          success: true     # To not receive a notification when a build succeeds
+          failure: false    # To not receive a notification when a build fails
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: alpha   # Any default or custom track that is not in ‘draft’ status
