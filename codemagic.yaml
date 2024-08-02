@@ -4,13 +4,13 @@ workflows:
     max_build_duration: 120
     instance_type: mac_mini_m2
     environment:
+      flutter: stable
       android_signing:
         - keystore_reference
       groups:
         - google_play # Pastikan grup ini mencakup GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
       vars:
-        PACKAGE_NAME: "io.codemagic.sample.flutter" # Ubah sesuai dengan nama paket Anda
-        FLUTTER_VERSION: "stable"
+        PACKAGE_NAME: "com.maumere.mobilepos" # Ubah sesuai dengan nama paket Anda
     scripts:
       - name: Set up Flutter
         script: |
