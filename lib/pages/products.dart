@@ -30,9 +30,9 @@ class _ProductsState extends State<Products> {
   List products = [];
   static int themeType = 1;
   ThemeData themeData = AppTheme.getThemeFromThemeMode(themeType);
-  bool changeLocation = false,
+  bool changeLocation = true,
       changePriceGroup = false,
-      canChangeLocation = false,
+      canChangeLocation = true,
       canMakeSell = false,
       inStock = true,
       gridView = false,
