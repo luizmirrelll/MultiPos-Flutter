@@ -31,11 +31,11 @@ class HomeScreen extends StatelessWidget {
         actions: <Widget>[
           IconButton(
               onPressed: () async {
-                 (await Helper().checkConnectivity())
-                    ? await sync()
-                    : Fluttertoast.showToast(
-                    msg: AppLocalizations.of(context)
-                        .translate('check_connectivity'));
+                 // (await Helper().checkConnectivity())
+                 //    ? await sync()
+                 //    : Fluttertoast.showToast(
+                 //    msg: AppLocalizations.of(context)
+                 //        .translate('check_connectivity'));
               },
               icon: Icon(
                 MdiIcons.syncIcon,
@@ -79,7 +79,7 @@ class HomeScreen extends StatelessWidget {
                     count: NotificationsCubit.get(context).notificationsCount,
                     child: GestureDetector(
                         onTap: () {
-                             Navigator.pushNamed(context, '/notify');
+                             // Navigator.pushNamed(context, '/notify');
                         },
                         child: Icon(
                           IconBroken.Notification,
