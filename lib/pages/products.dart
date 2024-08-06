@@ -30,7 +30,7 @@ class _ProductsState extends State<Products> {
   List products = [];
   static int themeType = 1;
   ThemeData themeData = AppTheme.getThemeFromThemeMode(themeType);
-  bool changeLocation = false,
+  bool changeLocation = true,
       changePriceGroup = false,
       canChangeLocation = true,
       canMakeSell = false,
@@ -1108,12 +1108,16 @@ class _ProductsState extends State<Products> {
             // show a confirmation if there location is changed.
             if (canChangeLocation) {
               if (selectedLocationId == newValue) {
-                changeLocation = false;
+                setState(() {
+                  changeLocation = false;
+                });
               } else if (selectedLocationId != 0) {
                 await _showCartResetDialogForLocation();
                 await priceGroupList();
               } else {
-                changeLocation = true;
+                setState(() {
+                  changeLocation = true;
+                });
                 await priceGroupList();
               }
               setState(() {
@@ -1154,13 +1158,17 @@ class _ProductsState extends State<Products> {
           actions: [
             TextButton(
                 onPressed: () {
-                  changeLocation = false;
+                  setState(() {
+                    changeLocation = false;
+                  });
                   Navigator.of(context).pop();
                 },
                 child: Text(AppLocalizations.of(context).translate('no'))),
             TextButton(
                 onPressed: () {
-                  changeLocation = true;
+                  setState(() {
+                    changeLocation = true;
+                  });
                   Navigator.of(context).pop();
                 },
                 child: Text(AppLocalizations.of(context).translate('yes')))
@@ -1182,13 +1190,17 @@ class _ProductsState extends State<Products> {
           actions: [
             TextButton(
                 onPressed: () {
-                  changePriceGroup = false;
+                  setState(() {
+                    changePriceGroup = false;
+                  });
                   Navigator.of(context).pop();
                 },
                 child: Text(AppLocalizations.of(context).translate('no'))),
             TextButton(
                 onPressed: () {
-                  changePriceGroup = true;
+                  setState(() {
+                    changePriceGroup = true;
+                  });
                   Navigator.of(context).pop();
                 },
                 child: Text(AppLocalizations.of(context).translate('yes')))
