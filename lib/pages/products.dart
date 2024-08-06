@@ -1101,19 +1101,19 @@ class _ProductsState extends State<Products> {
           }).toList(),
           onTap: () {
             if (locationListMap.length <= 2) {
-              canChangeLocation = true;
+              canChangeLocation = false;
             }
           },
           onChanged: (int? newValue) async {
             // show a confirmation if there location is changed.
             if (canChangeLocation) {
               if (selectedLocationId == newValue) {
-                changeLocation = true;
+                changeLocation = false;
               } else if (selectedLocationId != 0) {
                 await _showCartResetDialogForLocation();
                 await priceGroupList();
               } else {
-                changeLocation = false;
+                changeLocation = true;
                 await priceGroupList();
               }
               setState(() {
