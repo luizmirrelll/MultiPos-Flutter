@@ -1108,12 +1108,12 @@ class _ProductsState extends State<Products> {
             // show a confirmation if there location is changed.
             if (canChangeLocation) {
               if (selectedLocationId == newValue) {
-                changeLocation = false;
+                changeLocation = true;
               } else if (selectedLocationId != 0) {
                 await _showCartResetDialogForLocation();
                 await priceGroupList();
               } else {
-                changeLocation = true;
+                changeLocation = false;
                 await priceGroupList();
               }
               setState(() {
