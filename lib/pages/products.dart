@@ -32,7 +32,7 @@ class _ProductsState extends State<Products> {
   ThemeData themeData = AppTheme.getThemeFromThemeMode(themeType);
   bool changeLocation = false,
       changePriceGroup = false,
-      canChangeLocation = false,
+      canChangeLocation = true,
       canMakeSell = false,
       inStock = true,
       gridView = false,
@@ -1101,7 +1101,7 @@ class _ProductsState extends State<Products> {
           }).toList(),
           onTap: () {
             if (locationListMap.length <= 2) {
-              canChangeLocation = false;
+              canChangeLocation = true;
             }
           },
           onChanged: (int? newValue) async {
