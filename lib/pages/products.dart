@@ -32,7 +32,7 @@ class _ProductsState extends State<Products> {
   ThemeData themeData = AppTheme.getThemeFromThemeMode(themeType);
   bool changeLocation = false,
       changePriceGroup = false,
-      canChangeLocation = true,
+      canChangeLocation = false,
       canMakeSell = false,
       inStock = true,
       gridView = false,
