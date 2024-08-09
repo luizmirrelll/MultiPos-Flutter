@@ -6,8 +6,8 @@ import 'api_end_points.dart';
 class Config {
   static final String baseUrl = ApiEndPoints.baseUrl;
   static int? userId;
-  String clientId = '6',
-      clientSecret = 'k9QD6YnJX6uw7lZhtgFMYqupJrmjOrrX7pSYXLSv',
+  String clientId = 'please add your clientId here',
+      clientSecret = 'please add your clientSecret here',
       copyright = '\u00a9',
       appName = 'app',
       version = 'V 1.7',
@@ -32,7 +32,7 @@ class Config {
     Locale('fr', ''),
     Locale('es', ''),
     Locale('tr', ''),
-    Locale('id', 'ID'),
+    Locale('id', ''),
     Locale('my', '')
   ];
 
@@ -44,7 +44,7 @@ class Config {
     {'languageCode': 'fr', 'countryCode': '', 'name': 'Français'},
     {'languageCode': 'es', 'countryCode': '', 'name': 'Española'},
     {'languageCode': 'tr', 'countryCode': '', 'name': 'Türkçe'},
-    {'languageCode': 'id', 'countryCode': 'ID', 'name': 'Indonesian'},
+    {'languageCode': 'id', 'countryCode': '', 'name': 'Indonesian'},
 	{'languageCode': 'be', 'countryCode': '', 'name': 'Bengali'},
     {'languageCode': 'ch', 'countryCode': '', 'name': 'chinese'},
     {'languageCode': 'it', 'countryCode': '', 'name': 'italian'},
@@ -52,5 +52,5 @@ class Config {
   ];
 
   //final initialPosition = LatLng(20.46752985010792, 82.92005813910752);
-  final String googleAPIKey = '';
+  final String googleAPIKey = 'AIzaSyDtorf5cQD5g7V4K2R0JVl8DcnnqiZS5Qw';
 }

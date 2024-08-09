@@ -1,5 +1,5 @@
 abstract final class ApiEndPoints{
-  static String baseUrl = 'https://ntterdepan.xyz';
+  static String baseUrl = 'https://example.com';
   static String apiUrl = '/connector/api';
 
   //#region used by http
